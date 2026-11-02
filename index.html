@@ -4,105 +4,157 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mohieddine Ellabbad / Available Posters</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f5f0;
-      --card-bg: #efeae1;
-      --text: #161615;
-      --muted: #6b6861;
-      --border: #d8d3c8;
-      --accent: #b8332a;
-      --available: #2a6f48;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --arabic: 'IBM Plex Sans Arabic', sans-serif;
+      --bg: #f7f5f0; --card-bg: #efeae1; --text: #161615; --muted: #6b6861;
+      --border: #d8d3c8; --accent: #b8332a; --available: #2a6f48;
+      --mono: 'IBM Plex Mono', monospace; --sans: 'Inter', sans-serif; --arabic: 'IBM Plex Sans Arabic', sans-serif;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; padding: 2.5rem 2rem 5rem; max-width: 1320px; margin: 0 auto; }
+    header { border-bottom: 1.5px solid var(--text); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
+    h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+    .ar-title { font-family: var(--arabic); font-size: 1.35rem; font-weight: 600; display: block; margin-top: 0.2rem; }
+    .header-meta { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); text-align: right; text-transform: uppercase; }
+    .toolbar { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .intro-text { max-width: 580px; font-size: 0.95rem; color: var(--muted); }
+    .filters { display: flex; gap: 0.5rem; }
+    .filter-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; padding: 0.45rem 0.85rem; cursor: pointer; }
+    .filter-btn.active, .filter-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3rem 2rem; }
+    .poster-card { display: flex; flex-direction: column; }
+    .image-container { background: var(--card-bg); aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); cursor: zoom-in; }
+    .image-container img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .cat-number { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
+    .status-badge { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; padding: 0.1rem 0.5rem; border: 1px solid currentColor; }
+    .status-available { color: var(--available); }
+    .status-sold { color: var(--accent); }
+    .poster-title-en { font-size: 1.05rem; font-weight: 600; }
+    .poster-title-ar { font-family: var(--arabic); font-size: 1.05rem; color: var(--muted); margin-bottom: 0.85rem; }
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: auto; border-top: 1px solid var(--border); }
+    .specs-table tr { border-bottom: 1px solid var(--border); }
+    .specs-table td { padding: 0.45rem 0; }
+    .specs-table td:first-child { font-family: var(--mono); color: var(--muted); text-transform: uppercase; font-size: 0.72rem; }
+    .specs-table td:last-child { text-align: right; font-weight: 500; }
+    .price-row td:last-child { font-family: var(--mono); font-size: 0.9rem; font-weight: 600; }
+    .inquire-link { display: inline-block; margin-top: 0.85rem; font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--text); align-self: flex-start; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(22,22,21,0.92); z-index: 1000; align-items: center; justify-content: center; padding: 2rem; cursor: zoom-out; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 92vw; max-height: 90vh; object-fit: contain; }
+    footer { margin-top: 5rem; padding-top: 1.5rem; border-top: 1.5px solid var(--text); display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+  <header>
+    <div>
+      <h1>Mohieddine Ellabbad Estate / Available Posters</h1>
+      <span class="ar-title" dir="rtl">محيي الدين اللباد / الملصقات المتاحة</span>
+    </div>
+    <div class="header-meta">
+      <div>Catalogue &amp; Pricing List</div>
+      <div>Updated November 2026</div>
+    </div>
+  </header>
+
+  <section class="toolbar">
+    <p class="intro-text">
+      Original vintage offset lithographs, silkscreens, and estate editions from the personal archive of Mohieddine Ellabbad (1940–2010). Prices exclude shipping and framing.
+    </p>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterCatalog('all', this)">All Works</button>
+      <button class="filter-btn" onclick="filterCatalog('available', this)">Available</button>
+      <button class="filter-btn" onclick="filterCatalog('sold', this)">Sold / Archive</button>
+    </div>
+  </section>
+
+  <main class="catalog-grid">
+    <!-- POSTER 01 -->
+    <article class="poster-card" data-status="available">
+      <div class="image-container" onclick="openLightbox(this)">
+        <img src="https://placehold.co/600x840/e6e1d6/6b6861?text=Poster+01+(70x50cm)" alt="Poster 01">
+      </div>
+      <div class="cat-number">
+        <span>CAT. ELB-001</span>
+        <span class="status-badge status-available">Available</span>
+      </div>
+      <h2 class="poster-title-en">Book Fair / Children's Books Exhibition</h2>
+      <div class="poster-title-ar">معرض كتب الأطفال</div>
+      <table class="specs-table">
+        <tr><td>Year</td><td>1984</td></tr>
+        <tr><td>Medium</td><td>Offset Lithograph on Paper</td></tr>
+        <tr><td>Dimensions</td><td>70 × 50 cm</td></tr>
+        <tr><td>Condition</td><td>A (Unfolded, Archive Copy)</td></tr>
+        <tr class="price-row"><td>Price</td><td>$450 USD</td></tr>
+      </table>
+      <a class="inquire-link" href="mailto:info@domain.com?subject=Inquiry:%20CAT.%20ELB-001">Inquire to Acquire &rarr;</a>
+    </article>
+
+    <!-- POSTER 02 -->
+    <article class="poster-card" data-status="available">
+      <div class="image-container" onclick="openLightbox(this)">
+        <img src="https://placehold.co/600x840/e6e1d6/6b6861?text=Poster+02+(68x48cm)" alt="Poster 02">
+      </div>
+      <div class="cat-number">
+        <span>CAT. ELB-002</span>
+        <span class="status-badge status-available">Available</span>
+      </div>
+      <h2 class="poster-title-en">Dar Al-Fata Al-Arabi Publication Poster</h2>
+      <div class="poster-title-ar">ملصق دار الفتى العربي</div>
+      <table class="specs-table">
+        <tr><td>Year</td><td>1978</td></tr>
+        <tr><td>Medium</td><td>Offset Lithograph on Paper</td></tr>
+        <tr><td>Dimensions</td><td>68 × 48 cm</td></tr>
+        <tr><td>Condition</td><td>A- (Original Fold Lines)</td></tr>
+        <tr class="price-row"><td>Price</td><td>$600 USD</td></tr>
+      </table>
+      <a class="inquire-link" href="mailto:info@domain.com?subject=Inquiry:%20CAT.%20ELB-002">Inquire to Acquire &rarr;</a>
+    </article>
+
+    <!-- POSTER 03 -->
+    <article class="poster-card" data-status="sold">
+      <div class="image-container" onclick="openLightbox(this)">
+        <img src="https://placehold.co/600x840/e6e1d6/6b6861?text=Poster+03+(70x50cm)" alt="Poster 03">
+      </div>
+      <div class="cat-number">
+        <span>CAT. ELB-003</span>
+        <span class="status-badge status-sold">Sold</span>
+      </div>
+      <h2 class="poster-title-en">Palestine Solidarity Poster</h2>
+      <div class="poster-title-ar">ملصق التضامن مع فلسطين</div>
+      <table class="specs-table">
+        <tr><td>Year</td><td>1982</td></tr>
+        <tr><td>Medium</td><td>Silkscreen on Heavy Paper</td></tr>
+        <tr><td>Dimensions</td><td>70 × 50 cm</td></tr>
+        <tr><td>Condition</td><td>Archive Reference</td></tr>
+        <tr class="price-row"><td>Price</td><td>Sold</td></tr>
+      </table>
+      <a class="inquire-link" href="mailto:info@domain.com?subject=Inquiry:%20CAT.%20ELB-003">Request Edition Details &rarr;</a>
+    </article>
+  </main>
+
+  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+    <img id="lightbox-img" src="" alt="Full view">
+  </div>
+
+  <footer>
+    <div>&copy; Mohieddine Ellabbad Estate. All rights reserved.</div>
+    <div>Cairo, Egypt</div>
+  </footer>
+
+  <script>
+    function filterCatalog(status, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.poster-card').forEach(card => {
+        card.style.display = (status === 'all' || card.dataset.status === status) ? 'flex' : 'none';
+      });
     }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      line-height: 1.5;
-      padding: 2.5rem 2rem 5rem;
-      max-width: 1320px;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
+    function openLightbox(el) {
+      document.getElementById('lightbox-img').src = el.querySelector('img').src;
+      document.getElementById('lightbox').classList.add('open');
     }
-
-    /* Header */
-    header {
-      border-bottom: 1.5px solid var(--text);
-      padding-bottom: 1.5rem;
-      margin-bottom: 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .title-group h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .title-group .ar-title {
-      font-family: var(--arabic);
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-top: 0.2rem;
-      display: block;
-    }
-
-    .header-meta {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-align: right;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* Intro & Filter Bar */
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .intro-text {
-      max-width: 580px;
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    .filters {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter
+  </script>
+</body>
+</html>
